@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navaneeth Singh — AI/ML Engineer</title>
+<meta name="description" content="Navaneeth Singh — AI/ML engineer and systems programmer. Building LLM inference kernels, KV cache research, and high-performance C++ at JSS Academy, Bengaluru.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   RESET & VARIABLES
+   ═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-deep:    #07080c;
+  --bg-base:    #0c0d14;
+  --bg-surface: #11131c;
+  --bg-raised:  #161924;
+  --bg-hover:   #1c1f2e;
+
+  --border-subtle:  rgba(255,255,255,0.04);
+  --border-default: rgba(255,255,255,0.07);
+  --border-strong:  rgba(255,255,255,0.12);
+
+  --text-primary:   #e8e9ed;
+  --text-secondary: #a0a3b1;
+  --text-tertiary:  #5c5f72;
+  --text-ghost:     #3a3d4e;
+
+  /* Signature accent: warm amber-gold instead of generic purple */
+  --accent:       #e0a84c;
+  --accent-dim:   rgba(224,168,76,0.15);
+  --accent-glow:  rgba(224,168,76,0.08);
+
+  /* Secondary accents */
+  --cyan:    #56d4c8;
+  --cyan-dim: rgba(86,212,200,0.1);
+  --rose:    #e8668a;
+  --rose-dim: rgba(232,102,138,0.1);
+  --indigo:  #818cf8;
+  --indigo-dim: rgba(129,140,248,0.1);
+
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  --sidebar-width: 260px;
+  --topbar-height: 0px;
+
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+
+
+/* ═══════════════════════════════════════════
+   LAYOUT: SIDEBAR + MAIN
+   ═══════════════════════════════════════════ */
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  width: var(--sidebar-width);
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  background: var(--bg-base);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  z-index: 50;
+  transition: transform 0.35s var(--ease);
+}
+
+.sidebar-header {
+  padding: 2rem 1.5rem 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.sidebar-identity {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 0.7rem;
+}
+
+.sidebar-avatar {
+  width: 38px; height: 38px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent), #c77d2a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--bg-deep);
+  flex-shrink: 0;
+}
+
+.sidebar-name {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.sidebar-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-tertiary);
+  letter-spacing: 0.04em;
+}
+
+.sidebar-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+}
+
+.status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+  animation: pulse-dot 2.5s ease infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ─── NAV ─── */
+.sidebar-nav {
+  flex: 1;
+  padding: 1.2rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+  position: relative;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-body);
+}
+
+.nav-item:hover {
+  color: var(--text-secondary);
+  background: var(--bg-hover);
+}
+
+.nav-item.active {
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 3px; height: 18px;
+  background: var(--accent);
+  border-radius: 0 3px 3px 0;
+}
+
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.nav-item.active .nav-icon { opacity: 1; }
+
+.nav-label {
+  font-size: 0.6rem;
+  font-family: var(--font-mono);
+  color: var(--text-ghost);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.6rem 0.85rem 0.3rem;
+  margin-top: 0.6rem;
+}
+
+/* ─── SIDEBAR FOOTER ─── */
+.sidebar-footer {
+  padding: 1rem 1.2rem;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  gap: 0.6rem;
+}
+
+.social-btn {
+  width: 34px; height: 34px;
+  border-radius: 7px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-tertiary);
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.social-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.social-btn svg { width: 15px; height: 15px; }
+
+
+/* ─── MOBILE TOGGLE ─── */
+.mobile-toggle {
+  display: none;
+  position: fixed;
+  top: 1rem; left: 1rem;
+  z-index: 100;
+  width: 40px; height: 40px;
+  border-radius: 8px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 40;
+}
+
+/* ═══════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════ */
+.main {
+  margin-left: var(--sidebar-width);
+  flex: 1;
+  min-height: 100vh;
+}
+
+/* ─── SECTIONS (panels that switch) ─── */
+.panel {
+  display: none;
+  min-height: 100vh;
+}
+
+.panel.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  animation: panelIn 0.4s var(--ease) forwards;
+}
+
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.panel-inner {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 3.5rem 3rem 4rem;
+}
+
+
+/* ═══════════════════════════════════════════
+   SECTION HEADER
+   ═══════════════════════════════════════════ */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.section-heading {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 300;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  margin-bottom: 0.3rem;
+}
+
+.section-heading strong {
+  font-weight: 700;
+}
+
+.section-desc {
+  font-size: 0.88rem;
+  color: var(--text-tertiary);
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+}
+
+
+/* ═══════════════════════════════════════════
+   HOME / HERO PANEL
+   ═══════════════════════════════════════════ */
+.home-panel {
+  display: none;
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+.home-panel.active {
+  display: flex;
+}
+
+/* Ambient background glow */
+.home-glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(120px);
+  opacity: 0.35;
+}
+.home-glow-1 {
+  top: -15%; right: -10%;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+}
+.home-glow-2 {
+  bottom: -20%; left: -10%;
+  background: radial-gradient(circle, rgba(86,212,200,0.04) 0%, transparent 70%);
+}
+
+/* Grid pattern */
+.home-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(224,168,76,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(224,168,76,0.015) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 70%);
+  pointer-events: none;
+}
+
+.home-content {
+  position: relative;
+  z-index: 1;
+  padding: 3.5rem 3rem;
+  max-width: 780px;
+}
+
+.home-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-tertiary);
+  letter-spacing: 0.06em;
+  margin-bottom: 2rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  padding: 0.35rem 0.9rem;
+  border-radius: 6px;
+}
+
+.home-name {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.2rem;
+  color: var(--text-primary);
+}
+
+.home-name em {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.home-role {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  margin-bottom: 1.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.role-sep { color: var(--text-ghost); }
+.role-hl  { color: var(--cyan); }
+
+.home-bio {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  max-width: 580px;
+  line-height: 1.85;
+  margin-bottom: 2.5rem;
+}
+
+.home-actions {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.6rem 1.3rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  border-radius: 7px;
+  text-decoration: none;
+  border: none;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg-deep);
+}
+.btn-primary:hover {
+  background: #e8b85e;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(224,168,76,0.25);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-strong);
+}
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+/* Quick links row */
+.home-links {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.home-links a {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: color 0.2s;
+}
+.home-links a:hover { color: var(--accent); }
+.home-links .arr { opacity: 0.5; font-size: 0.6rem; }
+
+/* ═══════════════════════════════════════════
+   ABOUT PANEL
+   ═══════════════════════════════════════════ */
+.about-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+.about-text p {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.9;
+  margin-bottom: 1rem;
+}
+.about-text p:last-child { margin-bottom: 0; }
+.about-text em { font-style: italic; color: var(--text-primary); }
+
+/* Stats ribbon */
+.stats-ribbon {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
+
+.stat-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 1.15rem 1.3rem;
+  transition: border-color 0.2s;
+}
+.stat-card:hover { border-color: var(--border-strong); }
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  line-height: 1.4;
+}
+
+/* Interests */
+.interests-block {
+  margin-top: 2rem;
+}
+
+.interests-heading {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-ghost);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.7rem;
+}
+
+.interest-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.interest-pill {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  background: var(--bg-surface);
+  transition: border-color 0.2s, color 0.2s;
+}
+.interest-pill:hover { border-color: var(--accent); color: var(--accent); }
+
+
+/* ═══════════════════════════════════════════
+   PROJECTS PANEL
+   ═══════════════════════════════════════════ */
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.project-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.6rem 1.8rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--card-accent, var(--accent)), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.project-card:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+}
+.project-card:hover::before { opacity: 1; }
+
+.project-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.15rem;
+}
+
+.project-badge {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  padding: 0.18rem 0.6rem;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+  display: inline-block;
+}
+.badge-flagship  { color: var(--accent); background: var(--accent-dim); border: 1px solid rgba(224,168,76,0.2); }
+.badge-research  { color: var(--indigo); background: var(--indigo-dim); border: 1px solid rgba(129,140,248,0.2); }
+.badge-systems   { color: var(--cyan); background: var(--cyan-dim); border: 1px solid rgba(86,212,200,0.2); }
+.badge-fullstack { color: var(--rose); background: var(--rose-dim); border: 1px solid rgba(232,102,138,0.2); }
+
+.project-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.project-link {
+  color: var(--text-tertiary);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.project-link:hover { color: var(--accent); }
+
+.project-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin: 0.6rem 0 1.1rem;
+}
+
+.project-metrics {
+  display: flex;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.metric {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--cyan);
+  background: var(--cyan-dim);
+  border: 1px solid rgba(86,212,200,0.18);
+  padding: 0.22rem 0.65rem;
+  border-radius: 4px;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.ptag {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  color: var(--text-tertiary);
+  background: var(--bg-raised);
+  border: 1px solid var(--border-default);
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+}
+.ptag:hover { border-color: var(--border-strong); }
+
+
+/* ═══════════════════════════════════════════
+   COMPETITIONS PANEL
+   ═══════════════════════════════════════════ */
+.competitions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.comp-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.5rem 1.7rem;
+  transition: border-color 0.2s;
+}
+.comp-card:hover { border-color: var(--border-strong); }
+
+.comp-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.comp-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.comp-org {
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  margin-bottom: 0.6rem;
+}
+
+.comp-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.comp-status {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  padding: 0.22rem 0.6rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.status-active   { color: var(--cyan); background: var(--cyan-dim); border: 1px solid rgba(86,212,200,0.2); }
+.status-complete { color: var(--indigo); background: var(--indigo-dim); border: 1px solid rgba(129,140,248,0.2); }
+
+/* Media gallery */
+.media-section {
+  margin-top: 0.5rem;
+}
+.media-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-ghost);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.55rem;
+}
+
+.media-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.media-thumb {
+  width: 60px; height: 60px;
+  border-radius: 7px;
+  overflow: hidden;
+  border: 1px solid var(--border-default);
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.2s;
+  background: var(--bg-raised);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.media-thumb:hover { border-color: var(--accent); transform: scale(1.05); }
+.media-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.media-thumb .m-icon { font-size: 1.2rem; }
+.media-thumb .m-sublabel {
+  font-size: 0.5rem;
+  color: var(--text-ghost);
+  font-family: var(--font-mono);
+  text-align: center;
+  position: absolute;
+  bottom: 3px; left: 0; right: 0;
+}
+
+.media-add {
+  width: 60px; height: 60px;
+  border-radius: 7px;
+  border: 1px dashed var(--border-default);
+  background: transparent;
+  color: var(--text-ghost);
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, color 0.2s;
+  font-family: var(--font-body);
+}
+.media-add:hover { border-color: var(--accent); color: var(--accent); }
+
+
+/* ═══════════════════════════════════════════
+   SKILLS PANEL
+   ═══════════════════════════════════════════ */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.skill-group {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.4rem 1.6rem;
+  transition: border-color 0.2s;
+}
+.skill-group:hover { border-color: var(--border-strong); }
+
+.skill-group-title {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.skill-group-title .sg-icon {
+  font-size: 0.85rem;
+}
+
+.skill-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.skill-pill {
+  font-size: 0.78rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  background: var(--bg-raised);
+  transition: all 0.2s;
+}
+.skill-pill:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+  background: var(--accent-dim);
+}
+
+
+/* ═══════════════════════════════════════════
+   CONTACT PANEL
+   ═══════════════════════════════════════════ */
+.contact-intro {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  max-width: 500px;
+  line-height: 1.85;
+  margin-bottom: 2.2rem;
+}
+
+.contact-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.contact-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 1.1rem 1.3rem;
+  text-decoration: none;
+  display: block;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.contact-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.contact-card-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-ghost);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.contact-card-value {
+  font-size: 0.84rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+
+/* ═══════════════════════════════════════════
+   MODALS
+   ═══════════════════════════════════════════ */
+.modal-bg {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+}
+.modal-bg.open { display: flex; }
+
+.modal-box {
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  padding: 1.8rem;
+  width: 420px;
+  max-width: 92vw;
+}
+
+.modal-box h3 {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+}
+
+.mtype-row {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.9rem;
+}
+
+.mtype-btn {
+  flex: 1;
+  padding: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  color: var(--text-tertiary);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.mtype-btn.on {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.minput {
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 7px;
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  font-family: var(--font-body);
+  outline: none;
+  margin-bottom: 0.7rem;
+  transition: border-color 0.2s;
+}
+.minput:focus { border-color: var(--accent); }
+
+.modal-foot {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: flex-end;
+  margin-top: 0.3rem;
+}
+
+
+/* ─── LIGHTBOX ─── */
+.lbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0,0,0,0.92);
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+.lbox.open { display: flex; }
+.lbox img {
+  max-width: 92vw;
+  max-height: 92vh;
+  border-radius: 8px;
+  box-shadow: 0 0 60px rgba(0,0,0,0.5);
+}
+.lbox-close {
+  position: absolute;
+  top: 1.2rem; right: 1.5rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.8rem;
+  cursor: pointer;
+  opacity: 0.6;
+}
+.lbox-close:hover { opacity: 1; }
+
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+@media (max-width: 860px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .mobile-toggle { display: flex; }
+  .mobile-overlay.visible { display: block; }
+
+  .main { margin-left: 0; }
+  .panel-inner { padding: 4.5rem 1.5rem 3rem; }
+  .home-content { padding: 4.5rem 1.5rem; }
+
+  .stats-ribbon { grid-template-columns: 1fr 1fr; }
+  .contact-cards { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 540px) {
+  .home-name { font-size: 2.5rem; }
+  .stats-ribbon { grid-template-columns: 1fr; }
+  .panel-inner { padding: 4rem 1.2rem 2.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ MOBILE CONTROLS ═══ -->
+<button class="mobile-toggle" id="mobileToggle" onclick="toggleSidebar()">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+<div class="mobile-overlay" id="mobileOverlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-identity">
+        <div class="sidebar-avatar">NS</div>
+        <div>
+          <div class="sidebar-name">Navaneeth Singh</div>
+          <div class="sidebar-subtitle">AI/ML · Systems</div>
+        </div>
+      </div>
+      <div class="sidebar-status">
+        <span class="status-dot"></span>
+        2nd yr CSE · JSS Academy, Bengaluru
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <span class="nav-label">Navigate</span>
+      <button class="nav-item active" data-panel="home" onclick="switchPanel('home')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </button>
+      <button class="nav-item" data-panel="about" onclick="switchPanel('about')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        About
+      </button>
+      <button class="nav-item" data-panel="projects" onclick="switchPanel('projects')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Projects
+      </button>
+      <button class="nav-item" data-panel="competitions" onclick="switchPanel('competitions')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Competitions
+      </button>
+      <button class="nav-item" data-panel="certificates" onclick="switchPanel('certificates')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+        Certificates
+      </button>
+      <button class="nav-item" data-panel="skills" onclick="switchPanel('skills')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        Skills
+      </button>
+
+      <span class="nav-label">Connect</span>
+      <button class="nav-item" data-panel="contact" onclick="switchPanel('contact')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="https://github.com/Nbit-51" target="_blank" class="social-btn" title="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.164 6.839 9.49.5.09.682-.218.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/navaneeth-singh-01930a2b4/" target="_blank" class="social-btn" title="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="https://unstop.com/u/navansin58004" target="_blank" class="social-btn" title="Unstop">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </a>
+      <a href="mailto:navaneethsingh73@gmail.com" class="social-btn" title="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+    </div>
+  </aside>
+
+
+  <!-- ═══ MAIN CONTENT ═══ -->
+  <main class="main">
+
+    <!-- ═══ HOME ═══ -->
+    <section class="panel home-panel active" id="panel-home">
+      <div class="home-glow home-glow-1"></div>
+      <div class="home-glow home-glow-2"></div>
+      <div class="home-grid"></div>
+      <div class="home-content">
+        <div class="home-eyebrow">
+          <span class="status-dot"></span>
+          2nd year CSE · JSS Academy, Bengaluru · VTU
+        </div>
+        <h1 class="home-name">Navaneeth<br><em>Singh</em></h1>
+        <p class="home-role">
+          AI/ML Engineer
+          <span class="role-sep">·</span>
+          Systems Programmer
+          <span class="role-sep">·</span>
+          <span class="role-hl">LLM Inference &amp; Kernels</span>
+        </p>
+        <p class="home-bio">
+          Building at the intersection of deep learning and low-level systems — from fused CUDA/Triton inference kernels to architecture-specific ARM numerical libraries. I care about making AI faster, leaner, and more rigorous. Currently conducting empirical research on KV cache compression targeting TMLR.
+        </p>
+        <div class="home-actions">
+          <a href="https://github.com/Nbit-51" target="_blank" class="btn btn-primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.164 6.839 9.49.5.09.682-.218.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            GitHub
+          </a>
+          <a href="assets/Navaneeth_Singh_Resume_v3.docx" target="_blank" class="btn btn-ghost">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            Resume (Word)
+          </a>
+          <button class="btn btn-ghost" onclick="switchPanel('projects')">View Projects →</button>
+        </div>
+        <div class="home-links">
+          <a href="https://github.com/Nbit-51" target="_blank"><span class="arr">↗</span> github.com/Nbit-51</a>
+          <a href="https://www.linkedin.com/in/navaneeth-singh-01930a2b4/" target="_blank"><span class="arr">↗</span> LinkedIn</a>
+          <a href="https://unstop.com/u/navansin58004" target="_blank"><span class="arr">↗</span> Unstop</a>
+          <a href="mailto:navaneethsingh73@gmail.com"><span class="arr">✉</span> navaneethsingh73@gmail.com</a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══ ABOUT ═══ -->
+    <section class="panel" id="panel-about">
+      <div class="panel-inner">
+        <p class="section-label">// who I am</p>
+        <h2 class="section-heading">About <strong>me</strong></h2>
+        <p class="section-desc">Engineer first, researcher second. Obsessed with how models actually run.</p>
+
+        <div class="about-layout">
+          <div class="about-text">
+            <h3 style="font-family: var(--font-display); font-size: 1.15rem; color: var(--accent); margin-bottom: 0.6rem; font-weight: 600;">Who I Am</h3>
+            <p style="margin-bottom: 1.2rem;">I'm Navaneeth Singh, a second-year Computer Science Engineering student at JSS Academy of Technical Education, Bengaluru (VTU). I specialize in high-performance computer systems, low-level optimization, and custom machine learning infrastructure.</p>
+            
+            <h3 style="font-family: var(--font-display); font-size: 1.15rem; color: var(--accent); margin-bottom: 0.6rem; font-weight: 600;">What I'm Working On</h3>
+            <p style="margin-bottom: 1.2rem;">Currently, I am conducting original, empirical research on <strong>KV cache compression</strong> algorithms (comparing budget truncation, H2O eviction, and Sliding Window attention) targeting TMLR. I'm also building low-level libraries, including SME matrix acceleration for ARMv8-A, and custom fused Triton/CUDA GPU compute kernels to accelerate LLM inference pipelines.</p>
+            
+            <h3 style="font-family: var(--font-display); font-size: 1.15rem; color: var(--accent); margin-bottom: 0.6rem; font-weight: 600;">My Future Goals</h3>
+            <p>I aim to build the next generation of inference-layer software that makes deep learning models faster, leaner, and hardware-efficient at scale. My goal is to work at the bleeding edge of AI compilers, GPU programming, and low-overhead model deployment systems.</p>
+          </div>
+
+          <div class="stats-ribbon">
+            <div class="stat-card">
+              <div class="stat-value">8.54</div>
+              <div class="stat-label">CGPA · 4th Semester</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">1.68×</div>
+              <div class="stat-label">Inference speedup · Hydra Engine</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">68%</div>
+              <div class="stat-label">VRAM BW reduction · TinyLlama-1.1B</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">TMLR</div>
+              <div class="stat-label">Target venue · KV cache paper</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">109</div>
+              <div class="stat-label">/ 109 tests passing · navexa ARM lib</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">3+</div>
+              <div class="stat-label">Open-source repos shipped</div>
+            </div>
+          </div>
+
+          <div class="interests-block">
+            <p class="interests-heading">Interests</p>
+            <div class="interest-pills">
+              <span class="interest-pill">Neural Networks</span>
+              <span class="interest-pill">Deep Learning</span>
+              <span class="interest-pill">AI Optimization</span>
+              <span class="interest-pill">LLM Inference</span>
+              <span class="interest-pill">GPU Compute</span>
+              <span class="interest-pill">Systems Programming</span>
+              <span class="interest-pill">ML Research</span>
+              <span class="interest-pill">Competitive Programming</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══ PROJECTS ═══ -->
+    <section class="panel" id="panel-projects">
+      <div class="panel-inner">
+        <p class="section-label">// what I've built</p>
+        <h2 class="section-heading">Selected <strong>projects</strong></h2>
+        <p class="section-desc">From fused GPU kernels to full-stack allocation systems.</p>
+
+        <div class="projects-list">
+
+          <!-- Hydra Engine -->
+          <div class="project-card" style="--card-accent: var(--accent);">
+            <span class="project-badge badge-flagship">⚡ flagship</span>
+            <div class="project-top">
+              <span class="project-name">Hydra Engine</span>
+              <a href="https://github.com/Nbit-51/Hydra_Engine" target="_blank" class="project-link">↗ repo</a>
+            </div>
+            <p class="project-desc">High-performance LLM inference framework for TinyLlama-1.1B. Implements fused Triton JIT kernels for RMSNorm + residual ops, a GIL-free C++17 speculative decoding loop via LibTorch and PyBind11, AVX2 SIMD token verification, and NF4 quantization — all wired into a CUDA Graphs execution pipeline.</p>
+            <div class="project-metrics">
+              <span class="metric">1.68× kernel speedup</span>
+              <span class="metric">68% VRAM BW reduction</span>
+            </div>
+            <div class="project-tags">
+              <span class="ptag">C++17</span>
+              <span class="ptag">CUDA</span>
+              <span class="ptag">Triton</span>
+              <span class="ptag">PyTorch</span>
+              <span class="ptag">PyBind11</span>
+              <span class="ptag">AVX2</span>
+              <span class="ptag">LibTorch</span>
+            </div>
+          </div>
+
+          <!-- KV Cache Research -->
+          <div class="project-card" style="--card-accent: var(--indigo);">
+            <span class="project-badge badge-research">📄 research · targeting TMLR</span>
+            <div class="project-top">
+              <span class="project-name">KV Cache Compression Study</span>
+              <a href="https://github.com/Nbit-51/LLM_MODELS_OPTIMIZATION_STUDY" target="_blank" class="project-link">↗ repo</a>
+            </div>
+            <p class="project-desc">Empirical analysis comparing KV cache compression strategies — budget truncation, H2O token eviction, StreamingLLM, INT4/INT8 quantization, and sliding window attention — across OPT-1.3B, IBM Granite-1B, and Qwen2.5-1.5B. Documents architecture-specific failure modes including an H2O positional incoherence bug with RoPE models.</p>
+            <div class="project-tags">
+              <span class="ptag">Python</span>
+              <span class="ptag">PyTorch</span>
+              <span class="ptag">Quantization</span>
+              <span class="ptag">LLMs</span>
+              <span class="ptag">ML Research</span>
+              <span class="ptag">OPT</span>
+              <span class="ptag">Qwen2.5</span>
+            </div>
+          </div>
+
+          <!-- navexa ARM Library -->
+          <div class="project-card" style="--card-accent: var(--cyan);">
+            <span class="project-badge badge-systems">🔧 systems</span>
+            <div class="project-top">
+              <span class="project-name">navexa ARMv8-A Library</span>
+              <a href="https://github.com/Nbit-51/navexa_ARMv8-A_Library" target="_blank" class="project-link">↗ repo</a>
+            </div>
+            <p class="project-desc">A collaborative NumPy-equivalent for ARMv8-A — high-performance C++ numerical computing primitives filling architecture gaps. Contributed the SME Matrix Acceleration module and Virtualization Helpers. Cross-compiled to AArch64 via CMake; all 109 tests passing.</p>
+            <div class="project-metrics">
+              <span class="metric">109 / 109 tests ✓</span>
+            </div>
+            <div class="project-tags">
+              <span class="ptag">C++</span>
+              <span class="ptag">ARMv8-A</span>
+              <span class="ptag">SME</span>
+              <span class="ptag">CMake</span>
+              <span class="ptag">AArch64</span>
+              <span class="ptag">Linux</span>
+            </div>
+          </div>
+
+          <!-- LPG Distribution System -->
+          <div class="project-card" style="--card-accent: var(--rose);">
+            <span class="project-badge badge-fullstack">🌐 full-stack</span>
+            <div class="project-top">
+              <span class="project-name">LPG Distribution System</span>
+              <a href="https://github.com/Nbit-51/LPG-Distribution-System" target="_blank" class="project-link">↗ repo</a>
+            </div>
+            <p class="project-desc">Priority-aware LPG cylinder allocation system replacing India's FCFS model. Implements pro-rata shortage splitting, dynamic anti-starvation ageing with priority score decay, and a crisis mode — aligned with PMUY and NFSA mandates. Full-stack with FastAPI backend, MySQL, and QR-based consumer tracking.</p>
+            <div class="project-tags">
+              <span class="ptag">FastAPI</span>
+              <span class="ptag">MySQL</span>
+              <span class="ptag">Python</span>
+              <span class="ptag">REST API</span>
+              <span class="ptag">Algorithm Design</span>
+            </div>
+          </div>
+
+          <!-- ML Training Algorithms -->
+          <div class="project-card" style="--card-accent: var(--rose);">
+            <span class="project-badge badge-research">🧠 deep learning</span>
+            <div class="project-top">
+              <span class="project-name">ML Training Algorithms</span>
+              <a href="https://github.com/Nbit-51/ML_Algorithms" target="_blank" class="project-link">↗ repo</a>
+            </div>
+            <p class="project-desc">Collection of custom neural network training algorithms and deep learning components implemented from scratch. Demonstrates core mathematical understanding of backpropagation, optimization algorithms (Adam, RMSProp), and layer operations.</p>
+            <div class="project-tags">
+              <span class="ptag">Python</span>
+              <span class="ptag">PyTorch</span>
+              <span class="ptag">Deep Learning</span>
+              <span class="ptag">Optimizers</span>
+              <span class="ptag">Neural Networks</span>
+            </div>
+          </div>
+
+          <!-- ECS Component System -->
+          <div class="project-card" style="--card-accent: var(--cyan);">
+            <span class="project-badge badge-systems">🔧 systems</span>
+            <div class="project-top">
+              <span class="project-name">Ecs Component System</span>
+              <a href="https://github.com/Nbit-51/Ecs_Component_System" target="_blank" class="project-link">↗ repo</a>
+            </div>
+            <p class="project-desc">High-performance Entity Component System (ECS) in C++. Uses contiguous memory layout and sparse sets for cache-friendly entity management and fast iteration, ideal for game engines and real-time simulations.</p>
+            <div class="project-tags">
+              <span class="ptag">C++</span>
+              <span class="ptag">Systems Programming</span>
+              <span class="ptag">ECS</span>
+              <span class="ptag">Cache Optimization</span>
+              <span class="ptag">Memory Layout</span>
+            </div>
+          </div>
+
+          <!-- Math Relation Analyser -->
+          <div class="project-card" style="--card-accent: var(--indigo);">
+            <span class="project-badge badge-fullstack">🌐 full-stack · wasm</span>
+            <div class="project-top">
+              <span class="project-name">Math Relation Analyser</span>
+              <a href="https://github.com/Nbit-51/Math-Relation-Analyser" target="_blank" class="project-link">↗ repo</a>
+            </div>
+            <p class="project-desc">Interactive binary relation analyzer with properties, closures, Hasse diagrams, and function analysis. Features a high-performance C++ backend engine compiled to WebAssembly for fast in-browser computation.</p>
+            <div class="project-tags">
+              <span class="ptag">C++</span>
+              <span class="ptag">WebAssembly</span>
+              <span class="ptag">JavaScript</span>
+              <span class="ptag">Discrete Math</span>
+              <span class="ptag">Algorithm Design</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══ COMPETITIONS ═══ -->
+    <section class="panel" id="panel-competitions">
+      <div class="panel-inner">
+        <p class="section-label">// competitions</p>
+        <h2 class="section-heading">Hackathons &amp; <strong>competitions</strong></h2>
+        <p class="section-desc">Building under pressure, shipping under deadlines.</p>
+
+        <div class="competitions-list">
+
+          <!-- KSP -->
+          <div class="comp-card">
+            <div class="comp-header">
+              <div>
+                <p class="comp-name">2026 KSP Datathon</p>
+                <p class="comp-org">Karnataka State Police · Govt of Karnataka</p>
+              </div>
+              <span class="comp-status status-active">● active</span>
+            </div>
+            <p class="comp-desc">Competing on an AI-driven law enforcement and analytics solution. Building predictive models and intelligence tools to enhance operational policing efficiency and data-driven public safety outcomes.</p>
+            <div class="media-section">
+              <p class="media-label">media · certificates · documents</p>
+              <div class="media-row" id="mg-ksp">
+                <button class="media-add" onclick="openModal('ksp')" title="Add media">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Prompt Battle -->
+          <div class="comp-card">
+            <div class="comp-header">
+              <div>
+                <p class="comp-name">Global Academy of Technology AI Prompt Battle</p>
+                <p class="comp-org">Unstop · Global Academy of Technology</p>
+              </div>
+              <span class="comp-status status-complete">completed</span>
+            </div>
+            <p class="comp-desc">Competitive prompt engineering tournament testing prompt design, reasoning, and context utilization. Showcased structured LLM prompting strategies and creative engineering under time constraints.</p>
+            <div class="media-section">
+              <p class="media-label">media · certificates · documents</p>
+              <div class="media-row" id="mg-prompt">
+                <button class="media-add" onclick="openModal('prompt')" title="Add media">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Embedded Systems Quiz -->
+          <div class="comp-card">
+            <div class="comp-header">
+              <div>
+                <p class="comp-name">Embedathon 25-26 (Embedded Systems Quiz)</p>
+                <p class="comp-org">NIT Surathkal · Unstop</p>
+              </div>
+              <span class="comp-status status-complete">completed</span>
+            </div>
+            <p class="comp-desc">Technical quiz hosted by NIT Surathkal on microcontroller architecture, RTOS fundamentals, memory-mapped I/O, and interrupt handling — reinforcing the low-level thinking that informs systems programming work.</p>
+            <div class="media-section">
+              <p class="media-label">media · certificates · documents</p>
+              <div class="media-row" id="mg-embedded">
+                <button class="media-add" onclick="openModal('embedded')" title="Add media">+</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══ CERTIFICATES ═══ -->
+    <section class="panel" id="panel-certificates">
+      <div class="panel-inner">
+        <p class="section-label">// credentials</p>
+        <h2 class="section-heading">Courses &amp; <strong>Certificates</strong></h2>
+        <p class="section-desc">Technical courses, database foundations, and professional credentials.</p>
+
+        <div class="competitions-list">
+
+          <!-- Databases Certification -->
+          <div class="comp-card">
+            <div class="comp-header">
+              <div>
+                <p class="comp-name">Databases for Developers: Foundations</p>
+                <p class="comp-org">Oracle · Chris Saxon</p>
+              </div>
+              <span class="comp-status status-complete">completed</span>
+            </div>
+            <p class="comp-desc">Professional database foundations certification covering relational model schemas, SQL query logic, normalization forms, and database performance optimization.</p>
+            <div class="media-section">
+              <p class="media-label">media · certificates · documents</p>
+              <div class="media-row" id="mg-databases">
+                <div class="media-thumb" title="Database Foundations Certificate PDF" onclick="window.open('assets/classcertofexcellence.pdf', '_blank')">
+                  <span class="m-icon">📄</span>
+                  <span class="m-sublabel">Database Cert</span>
+                </div>
+                <button class="media-add" onclick="openModal('databases')" title="Add media">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- IBM Mastering the Art of Prompting -->
+          <div class="comp-card">
+            <div class="comp-header">
+              <div>
+                <p class="comp-name">Mastering the Art of Prompting</p>
+                <p class="comp-org">IBM SkillsBuild · Moodle (MDL-298)</p>
+              </div>
+              <span class="comp-status status-complete">completed</span>
+            </div>
+            <p class="comp-desc">Structured prompt design, LLM reasoning patterns, zero-shot and few-shot methodologies, and context utilization.</p>
+            <div class="media-section">
+              <p class="media-label">media · certificates · documents</p>
+              <div class="media-row" id="mg-prompting-cert">
+                <div class="media-thumb" title="IBM Prompting Certificate PDF" onclick="window.open('assets/SkillsBuild_Certificate.pdf', '_blank')">
+                  <span class="m-icon">📄</span>
+                  <span class="m-sublabel">Prompting Cert</span>
+                </div>
+                <button class="media-add" onclick="openModal('prompting-cert')" title="Add media">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scaler DBMS Course -->
+          <div class="comp-card">
+            <div class="comp-header">
+              <div>
+                <p class="comp-name">DBMS Course - Master the Fundamentals and Advanced Concepts</p>
+                <p class="comp-org">Scaler Topics</p>
+              </div>
+              <span class="comp-status status-complete">completed</span>
+            </div>
+            <p class="comp-desc">Comprehensive certification on database management systems, relational algebra, SQL optimization, schema design, and transaction protocols.</p>
+            <div class="media-section">
+              <p class="media-label">media · certificates · documents</p>
+              <div class="media-row" id="mg-scaler-dbms">
+                <div class="media-thumb" title="Scaler DBMS Certificate PDF" onclick="window.open('assets/Scaler_DBMS_Certificate.pdf', '_blank')">
+                  <span class="m-icon">📄</span>
+                  <span class="m-sublabel">Scaler Cert</span>
+                </div>
+                <button class="media-add" onclick="openModal('scaler-dbms')" title="Add media">+</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══ SKILLS ═══ -->
+    <section class="panel" id="panel-skills">
+      <div class="panel-inner">
+        <p class="section-label">// toolbox</p>
+        <h2 class="section-heading">Skills &amp; <strong>technologies</strong></h2>
+        <p class="section-desc">What I build with, ordered by depth of experience.</p>
+
+        <div class="skills-grid">
+          <div class="skill-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <p class="skill-group-title" style="margin-bottom: 0;"><span class="sg-icon">🧠</span> ML / AI</p>
+              <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent); font-weight: 500;">Core Expertise</span>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.5;">Focused on custom deep learning architectures, compiled GPU execution graphs, model quantization, and low-level LLM cache mechanics.</p>
+            <div class="skill-pills">
+              <span class="skill-pill">PyTorch</span>
+              <span class="skill-pill">Triton JIT</span>
+              <span class="skill-pill">CUDA Graphs</span>
+              <span class="skill-pill">Quantization</span>
+              <span class="skill-pill">LLMs</span>
+              <span class="skill-pill">Transformers</span>
+              <span class="skill-pill">KV Cache</span>
+              <span class="skill-pill">Speculative Decoding</span>
+            </div>
+          </div>
+          
+          <div class="skill-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <p class="skill-group-title" style="margin-bottom: 0;"><span class="sg-icon">⚙️</span> Systems / Low-Level</p>
+              <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--cyan); font-weight: 500;">Performance Focus</span>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.5;">Writing high-performance C++ binaries, utilizing SIMD instructions, interfacing Python with C++, and optimizing ARMv8 architecture kernels.</p>
+            <div class="skill-pills">
+              <span class="skill-pill">C++17</span>
+              <span class="skill-pill">LibTorch</span>
+              <span class="skill-pill">PyBind11</span>
+              <span class="skill-pill">AVX2 SIMD</span>
+              <span class="skill-pill">ARMv8-A</span>
+              <span class="skill-pill">CMake</span>
+              <span class="skill-pill">Linux</span>
+              <span class="skill-pill">WSL2</span>
+            </div>
+          </div>
+          
+          <div class="skill-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <p class="skill-group-title" style="margin-bottom: 0;"><span class="sg-icon">🌐</span> Web / Backend</p>
+              <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--rose); font-weight: 500;">Application Stack</span>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.5;">Building robust servers, relational database schemas, REST APIs, and simple but visually premium frontends for AI tooling.</p>
+            <div class="skill-pills">
+              <span class="skill-pill">Python</span>
+              <span class="skill-pill">FastAPI</span>
+              <span class="skill-pill">MySQL</span>
+              <span class="skill-pill">REST APIs</span>
+              <span class="skill-pill">JavaScript</span>
+              <span class="skill-pill">HTML / CSS</span>
+              <span class="skill-pill">Git</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══ CONTACT ═══ -->
+    <section class="panel" id="panel-contact">
+      <div class="panel-inner">
+        <p class="section-label">// get in touch</p>
+        <h2 class="section-heading">Let's <strong>connect</strong></h2>
+        <p class="contact-intro">Open to research collaborations, internship opportunities, and conversations about AI systems, LLM inference, or low-level engineering. Always happy to talk kernels.</p>
+
+        <div class="contact-cards">
+          <a class="contact-card" href="mailto:navaneethsingh73@gmail.com">
+            <p class="contact-card-label">Email</p>
+            <p class="contact-card-value">navaneethsingh73@gmail.com</p>
+          </a>
+          <a class="contact-card" href="https://github.com/Nbit-51" target="_blank">
+            <p class="contact-card-label">GitHub</p>
+            <p class="contact-card-value">github.com/Nbit-51</p>
+          </a>
+          <a class="contact-card" href="https://www.linkedin.com/in/navaneeth-singh-01930a2b4/" target="_blank">
+            <p class="contact-card-label">LinkedIn</p>
+            <p class="contact-card-value">navaneeth-singh-01930a2b4</p>
+          </a>
+          <a class="contact-card" href="https://unstop.com/u/navansin58004" target="_blank">
+            <p class="contact-card-label">Unstop</p>
+            <p class="contact-card-value">unstop.com/u/navansin58004</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+
+<!-- ═══ MEDIA MODAL ═══ -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal-box">
+    <h3>Add media</h3>
+    <div class="mtype-row">
+      <button class="mtype-btn on" id="mbt-img" onclick="setMType('image')">🖼 Image</button>
+      <button class="mtype-btn" id="mbt-doc" onclick="setMType('doc')">📄 Document</button>
+      <button class="mtype-btn" id="mbt-link" onclick="setMType('link')">🔗 Link</button>
+    </div>
+    <input class="minput" id="m-url" type="url" placeholder="Paste URL (image, PDF, certificate…)">
+    <input class="minput" id="m-label" type="text" placeholder="Label (e.g. 'Certificate', 'Demo photo')">
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="addMedia()">Add</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ LIGHTBOX ═══ -->
+<div class="lbox" id="lbox" onclick="closeLbox()">
+  <button class="lbox-close" onclick="closeLbox()">✕</button>
+  <img id="lbox-img" src="" alt="">
+</div>
+
+
+<script>
+/* ═══════════════════════════════════════════
+   PANEL SWITCHING
+   ═══════════════════════════════════════════ */
+function switchPanel(name) {
+  // Deactivate all panels
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  // Activate target
+  const target = document.getElementById('panel-' + name);
+  if (target) target.classList.add('active');
+
+  // Update nav
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const navBtn = document.querySelector(`.nav-item[data-panel="${name}"]`);
+  if (navBtn) navBtn.classList.add('active');
+
+  // Close mobile sidebar
+  if (window.innerWidth <= 860) {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('mobileOverlay').classList.remove('visible');
+  }
+
+  // Scroll to top of main content
+  window.scrollTo({ top: 0, behavior: 'auto' });
+}
+
+/* ═══════════════════════════════════════════
+   MOBILE SIDEBAR
+   ═══════════════════════════════════════════ */
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('mobileOverlay');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('visible');
+}
+
+/* ═══════════════════════════════════════════
+   KEYBOARD NAV
+   ═══════════════════════════════════════════ */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal();
+    closeLbox();
+  }
+});
+
+/* ═══════════════════════════════════════════
+   MEDIA MODAL
+   ═══════════════════════════════════════════ */
+let activeHack = null;
+let mType = 'image';
+
+function setMType(t) {
+  mType = t;
+  ['img','doc','link'].forEach(k => document.getElementById('mbt-'+k).classList.remove('on'));
+  document.getElementById('mbt-' + (t === 'image' ? 'img' : t === 'doc' ? 'doc' : 'link')).classList.add('on');
+  document.getElementById('m-url').placeholder =
+    t === 'image' ? 'Paste image URL (jpg, png, webp…)' :
+    t === 'doc'   ? 'Paste document / PDF URL' :
+                    'Paste any link (drive, figma, etc.)';
+}
+
+function openModal(id) {
+  activeHack = id;
+  document.getElementById('m-url').value = '';
+  document.getElementById('m-label').value = '';
+  setMType('image');
+  document.getElementById('modal-bg').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal-bg').classList.remove('open');
+  activeHack = null;
+}
+
+function addMedia() {
+  const url   = document.getElementById('m-url').value.trim();
+  const label = document.getElementById('m-label').value.trim() || (mType === 'image' ? 'Photo' : mType === 'doc' ? 'Document' : 'Link');
+  if (!url || !activeHack) return;
+
+  const container = document.getElementById('mg-' + activeHack);
+  const addBtn    = container.querySelector('.media-add');
+  const item      = document.createElement('div');
+  item.className  = 'media-thumb';
+
+  if (mType === 'image') {
+    const img   = document.createElement('img');
+    img.src     = url; img.alt = label;
+    img.onerror = () => { img.style.display = 'none'; item.innerHTML += '<span class="m-icon">🖼</span>'; };
+    item.appendChild(img);
+    item.title  = label;
+    item.onclick = () => openLbox(url);
+  } else {
+    const icon = mType === 'doc' ? '📄' : '🔗';
+    item.innerHTML = `<span class="m-icon">${icon}</span><span class="m-sublabel">${label.slice(0,12)}</span>`;
+    item.onclick   = () => window.open(url, '_blank');
+    item.title     = label;
+  }
+
+  container.insertBefore(item, addBtn);
+  closeModal();
+}
+
+document.getElementById('modal-bg').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal-bg')) closeModal();
+});
+
+/* ═══════════════════════════════════════════
+   LIGHTBOX
+   ═══════════════════════════════════════════ */
+function openLbox(src) {
+  document.getElementById('lbox-img').src = src;
+  document.getElementById('lbox').classList.add('open');
+}
+function closeLbox() {
+  document.getElementById('lbox').classList.remove('open');
+}
+</script>
+</body>
+</html>
