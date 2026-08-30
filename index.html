@@ -18,9 +18,9 @@
     --text:#e6e9ec;
     --text-dim:#8b94a0;
     --text-faint:#5a6270;
-    --accent:#7cffcb;
-    --accent-dim:#4fae8f;
-    --accent-wash:rgba(124,255,203,0.08);
+    --accent:#5ed3ac;
+    --accent-dim:#469b7d;
+    --accent-wash:rgba(94,211,172,0.12);
     --amber:#f2b872;
     --radius:10px;
     --maxw:1080px;
@@ -38,15 +38,6 @@
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
-  }
-  body::before{
-    content:"";
-    position:fixed; inset:0;
-    background-image:
-      radial-gradient(circle at 15% 8%, rgba(124,255,203,0.05), transparent 40%),
-      radial-gradient(circle at 85% 92%, rgba(124,255,203,0.04), transparent 40%);
-    pointer-events:none;
-    z-index:0;
   }
   h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-0.01em;}
   a{color:inherit; text-decoration:none;}
@@ -140,7 +131,7 @@
     border:1px solid var(--border-hi); padding:6px 12px; border-radius:20px;
     margin-bottom:28px;
   }
-  .hero-tag .dot{width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent);}
+  .hero-tag .dot{width:6px; height:6px; border-radius:50%; background:var(--accent);}
   .hero-title{font-size:clamp(38px,6.2vw,64px); line-height:1.05; margin-bottom:22px;}
   .hero-title .accent-text{color:var(--accent);}
   .hero-role{
@@ -156,7 +147,7 @@
     transition:transform .15s, border-color .15s, background .15s;
   }
   .btn-primary{background:var(--accent); color:#04140f;}
-  .btn-primary:hover{transform:translateY(-1px); box-shadow:0 6px 20px rgba(124,255,203,0.18);}
+  .btn-primary:hover{transform:translateY(-1px); background:#78e0bd;}
   .btn-secondary{border:1px solid var(--border-hi); color:var(--text);}
   .btn-secondary:hover{border-color:var(--accent); color:var(--accent);}
 
@@ -242,15 +233,11 @@
   .subsection-note{font-size:13.5px; color:var(--text-faint); margin-bottom:22px; max-width:540px;}
   .project-list + .subsection-label{margin-top:8px;}
   .project-badge{
-    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--accent);
-    background:var(--accent-wash); border:1px solid var(--border-hi);
-    padding:3px 9px 3px 7px; border-radius:5px; white-space:nowrap; flex-shrink:0;
-    display:inline-flex; align-items:center; gap:5px;
+    font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; color:var(--accent);
+    background:rgba(94,211,172,0.14); border:1px solid var(--accent-dim);
+    padding:3px 9px; border-radius:5px; white-space:nowrap; flex-shrink:0;
+    display:inline-flex; align-items:center;
   }
-  .badge-icon{width:12px; height:12px; flex-shrink:0; stroke:currentColor;}
-  .skill-icon{width:19px; height:19px; stroke:var(--accent); flex-shrink:0;}
-  .skill-card-title{display:inline-flex; align-items:center; gap:9px;}
-  .mail-icon{width:15px; height:15px; stroke:currentColor; flex-shrink:0;}
   .project-name{font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:600;}
   .project-blurb-preview{color:var(--text-faint); font-size:13px; display:none;}
   .project-chevron{
@@ -310,13 +297,8 @@
   #connect{padding-bottom:70px;}
   .connect-card{
     border:1px solid var(--border); border-radius:16px; background:var(--surface);
-    padding:56px 48px; text-align:center; position:relative; overflow:hidden;
+    padding:56px 48px; text-align:center;
   }
-  .connect-card::before{
-    content:""; position:absolute; inset:0;
-    background:radial-gradient(circle at 50% 0%, var(--accent-wash), transparent 60%);
-  }
-  .connect-inner{position:relative; z-index:1;}
   .connect-card h2{font-size:clamp(24px,3vw,32px); margin-bottom:14px;}
   .connect-card p{color:var(--text-dim); max-width:480px; margin:0 auto 32px; font-size:15px;}
   .connect-links{display:flex; flex-wrap:wrap; justify-content:center; gap:12px;}
@@ -377,8 +359,8 @@
 
       <div class="trace-wrap">
         <div class="trace-label">
-          <span>kernel_latency_trace.log</span>
-          <span class="live"><span class="dot"></span>1.68× SPEEDUP</span>
+          <span>Inference latency trend, Hydra Engine</span>
+          <span class="live">1.68× speedup</span>
         </div>
         <svg class="trace" viewBox="0 0 900 60" preserveAspectRatio="none">
           <path class="trace-path" d="M0,45 L40,44 L60,20 L75,38 L100,15 L130,42 L150,10 L180,40 L210,25 L230,44 L260,12 L290,36 L320,8 L350,40 L380,18 L410,42 L440,14 L470,38 L500,22 L530,44 L560,9 L590,40 L620,16 L650,42 L680,11 L710,39 L740,20 L770,44 L800,13 L830,41 L860,17 L900,40"/>
@@ -409,8 +391,8 @@
   <!-- ABOUT -->
   <section id="about">
     <div class="wrap">
-      <div class="eyebrow">// who i am</div>
-      <h2 class="section-title">Engineer first, <em>researcher second</em>.</h2>
+      <div class="eyebrow">01 / Who I Am</div>
+      <h2 class="section-title">I build things, then <em>study why they work</em>.</h2>
       <p class="section-intro">Obsessed with how models actually run — not just what they predict.</p>
 
       <div class="about-grid">
@@ -429,7 +411,7 @@
           </div>
         </div>
         <div class="about-thesis">
-          <div class="mono" style="font-size:12px; color:var(--accent); margin-bottom:12px;">// technical thesis</div>
+          <div class="mono" style="font-size:12px; color:var(--accent); margin-bottom:12px; text-transform:uppercase; letter-spacing:0.06em;">Technical Thesis</div>
           Most inference slowdowns aren't algorithmic — they're memory-bound. Every project here is an attempt to close the gap between what a model <em>could</em> do on a given piece of silicon and what it <em>actually</em> does, one fused kernel or cache eviction policy at a time.
         </div>
       </div>
@@ -439,11 +421,11 @@
   <!-- PROJECTS -->
   <section id="projects">
     <div class="wrap">
-      <div class="eyebrow">// what i've built</div>
+      <div class="eyebrow">02 / What I've Built</div>
       <h2 class="section-title">Selected <em>projects</em></h2>
       <p class="section-intro">Active systems are shown as active systems — the point is to document engineering in progress, not present unfinished work as production-ready. Click a card to expand metrics &amp; tags.</p>
 
-      <div class="subsection-label">// building now</div>
+      <div class="subsection-label">Building Now</div>
       <p class="subsection-note">Active development and open research — where things currently stand, not where they'll end up.</p>
 
       <div class="project-list" id="projectList">
@@ -457,7 +439,7 @@
                 <span>· updated ~1 month ago</span>
               </div>
               <div class="project-top-row">
-                <span class="project-badge"><svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>FLAGSHIP</span>
+                <span class="project-badge">FLAGSHIP</span>
                 <span class="project-name">Hydra Engine</span>
               </div>
             </div>
@@ -486,7 +468,7 @@
                 <span class="status-chip active">ACTIVE DEVELOPMENT</span>
               </div>
               <div class="project-top-row">
-                <span class="project-badge"><svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>CPU INFERENCE</span>
+                <span class="project-badge">CPU INFERENCE</span>
                 <span class="project-name">Leaf</span>
               </div>
             </div>
@@ -517,7 +499,7 @@
                 <span>· targeting TMLR</span>
               </div>
               <div class="project-top-row">
-                <span class="project-badge"><svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>RESEARCH</span>
+                <span class="project-badge">RESEARCH</span>
                 <span class="project-name">KV Cache Compression Study</span>
               </div>
             </div>
@@ -536,7 +518,7 @@
 
       </div>
 
-      <div class="subsection-label" style="margin-top:48px;">// finished enough to show</div>
+      <div class="subsection-label" style="margin-top:48px;">Finished Enough To Show</div>
       <p class="subsection-note">Demonstrates different engineering layers — collaborative systems work, low-level libraries, and a competition-winning full-stack build.</p>
 
       <div class="project-list">
@@ -549,7 +531,7 @@
                 <span class="status-chip contribution">GROUP CONTRIBUTION</span>
               </div>
               <div class="project-top-row">
-                <span class="project-badge"><svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>SYSTEMS</span>
+                <span class="project-badge">SYSTEMS</span>
                 <span class="project-name">navexa ARMv8-A Library</span>
               </div>
             </div>
@@ -577,7 +559,7 @@
                 <span class="status-chip winner">DATATHON WINNER</span>
               </div>
               <div class="project-top-row">
-                <span class="project-badge"><svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>FULL-STACK</span>
+                <span class="project-badge">FULL-STACK</span>
                 <span class="project-name">LPG Distribution System</span>
               </div>
             </div>
@@ -602,7 +584,7 @@
                 <span class="status-chip shipped">SHIPPED</span>
               </div>
               <div class="project-top-row">
-                <span class="project-badge"><svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="19" cy="18" r="2"/><line x1="7" y1="6" x2="10" y2="11"/><line x1="7" y1="18" x2="10" y2="13"/><line x1="14" y1="11" x2="17" y2="7"/><line x1="14" y1="13" x2="17" y2="17"/></svg>DEEP LEARNING</span>
+                <span class="project-badge">DEEP LEARNING</span>
                 <span class="project-name">ML Training Algorithms</span>
               </div>
             </div>
@@ -627,7 +609,7 @@
                 <span class="status-chip shipped">SHIPPED</span>
               </div>
               <div class="project-top-row">
-                <span class="project-badge"><svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>SYSTEMS</span>
+                <span class="project-badge">SYSTEMS</span>
                 <span class="project-name">Ecs Component System</span>
               </div>
             </div>
@@ -652,7 +634,7 @@
                 <span class="status-chip shipped">SHIPPED</span>
               </div>
               <div class="project-top-row">
-                <span class="project-badge"><svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>WASM</span>
+                <span class="project-badge">WASM</span>
                 <span class="project-name">Math Relation Analyser</span>
               </div>
             </div>
@@ -676,7 +658,7 @@
   <!-- COMPETITIONS -->
   <section id="competitions">
     <div class="wrap">
-      <div class="eyebrow">// competitions</div>
+      <div class="eyebrow">03 / Competitions</div>
       <h2 class="section-title">Hackathons &amp; <em>competitions</em></h2>
       <p class="section-intro">Building under pressure, shipping under deadlines.</p>
 
@@ -688,15 +670,6 @@
             <div class="row-card-desc">Built and presented the priority-aware LPG allocation system end-to-end under competition time constraints. Won 1st place — certificate on file.</div>
           </div>
           <span class="status-pill winner">WINNER</span>
-        </div>
-
-        <div class="row-card">
-          <div class="row-card-main">
-            <div class="row-card-title">2026 KSP Datathon</div>
-            <div class="row-card-org">Karnataka State Police · Govt of Karnataka</div>
-            <div class="row-card-desc">Competed on an AI-driven law enforcement and analytics solution — built predictive models for operational policing use cases. Did not advance past the qualifier round.</div>
-          </div>
-          <span class="status-pill completed">COMPLETED</span>
         </div>
 
         <div class="row-card">
@@ -723,14 +696,14 @@
   <!-- SKILLS -->
   <section id="skills">
     <div class="wrap">
-      <div class="eyebrow">// toolbox</div>
+      <div class="eyebrow">04 / Toolbox</div>
       <h2 class="section-title">Skills &amp; <em>technologies</em></h2>
       <p class="section-intro">What I build with, ordered by depth of experience.</p>
 
       <div class="skills-grid">
         <div class="skill-card">
           <div class="skill-card-head">
-            <span class="skill-card-title"><svg class="skill-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="19" cy="18" r="2"/><line x1="7" y1="6" x2="10" y2="11"/><line x1="7" y1="18" x2="10" y2="13"/><line x1="14" y1="11" x2="17" y2="7"/><line x1="14" y1="13" x2="17" y2="17"/></svg>ML / AI</span>
+            <span class="skill-card-title">ML / AI</span>
             <span class="skill-card-tag">CORE EXPERTISE</span>
           </div>
           <p class="skill-card-desc">Custom deep learning architectures, compiled GPU execution graphs, model quantization, and low-level LLM cache mechanics.</p>
@@ -740,7 +713,7 @@
         </div>
         <div class="skill-card">
           <div class="skill-card-head">
-            <span class="skill-card-title"><svg class="skill-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>Systems / Low-Level</span>
+            <span class="skill-card-title">Systems / Low-Level</span>
             <span class="skill-card-tag">PERFORMANCE FOCUS</span>
           </div>
           <p class="skill-card-desc">High-performance C++ binaries, SIMD instructions, Python/C++ interop, and ARMv8 architecture-level kernel work.</p>
@@ -750,7 +723,7 @@
         </div>
         <div class="skill-card">
           <div class="skill-card-head">
-            <span class="skill-card-title"><svg class="skill-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>Web / Backend</span>
+            <span class="skill-card-title">Web / Backend</span>
             <span class="skill-card-tag">APPLICATION STACK</span>
           </div>
           <p class="skill-card-desc">Robust servers, relational database schemas, REST APIs, and clean frontends for AI tooling.</p>
@@ -767,11 +740,11 @@
     <div class="wrap">
       <div class="connect-card">
         <div class="connect-inner">
-          <div class="eyebrow" style="justify-content:center;">// get in touch</div>
+          <div class="eyebrow" style="justify-content:center;">05 / Get In Touch</div>
           <h2>Let's <span class="accent-text" style="color:var(--accent);">connect</span></h2>
           <p>Open to research collaborations, internship opportunities, and conversations about AI systems, LLM inference, or low-level engineering. Always happy to talk kernels.</p>
           <div class="connect-links">
-            <a href="mailto:navaneethsingh73@gmail.com" class="btn btn-primary"><svg class="mail-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email</a>
+            <a href="mailto:navaneethsingh73@gmail.com" class="btn btn-primary">Email</a>
             <a href="https://github.com/Nbit-51" class="btn btn-secondary">GitHub</a>
             <a href="https://www.linkedin.com/in/navaneeth-singh-01930a2b4/" class="btn btn-secondary">LinkedIn</a>
             <a href="https://unstop.com/u/navansin58004" class="btn btn-secondary">Unstop</a>
