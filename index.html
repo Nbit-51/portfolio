@@ -512,7 +512,7 @@
       <div class="trace-wrap">
         <div class="trace-label">
           <span>Measured kernel optimization · Hydra Engine</span>
-          <span class="live">1.68× speedup</span>
+          <span class="live">workload-dependent gains</span>
         </div>
         <svg class="trace" viewBox="0 0 900 60" preserveAspectRatio="none">
           <path class="trace-path" d="M0,45 L40,44 L60,20 L75,38 L100,15 L130,42 L150,10 L180,40 L210,25 L230,44 L260,12 L290,36 L320,8 L350,40 L380,18 L410,42 L440,14 L470,38 L500,22 L530,44 L560,9 L590,40 L620,16 L650,42 L680,11 L710,39 L740,20 L770,44 L800,13 L830,41 L860,17 L900,40"/>
@@ -520,7 +520,7 @@
       </div>
 
       <div class="stat-grid" style="grid-template-columns:repeat(4,1fr);">
-        <div class="stat"><div class="stat-num">1.68×</div><div class="stat-label">KERNEL SPEEDUP<br>Hydra Engine</div></div>
+        <div class="stat"><div class="stat-num">Measured</div><div class="stat-label">KERNEL SPEEDUPS<br>vary by workload</div></div>
         <div class="stat"><div class="stat-num">68%</div><div class="stat-label">VRAM BW REDUCTION<br>TinyLlama-1.1B</div></div>
         <div class="stat"><div class="stat-num">397→141ms</div><div class="stat-label">CPU LATENCY<br>Leaf / ResNet-18</div></div>
         <div class="stat"><div class="stat-num">109/109</div><div class="stat-label">TESTS PASSING<br>navexa ARM lib</div></div>
@@ -555,14 +555,14 @@
           <h3>Hydra Engine</h3>
           <p>
             High-performance LLM inference framework for TinyLlama-1.1B with fused Triton kernels,
-            CUDA Graphs, speculative decoding, AVX2 token verification, NF4 quantization, LibTorch, and PyBind11.
+            CUDA Graphs, speculative decoding, AVX2 token verification, NF4 quantization, LibTorch, and PyBind11. Performance improvements are reported per kernel and workload rather than as one global speedup.
           </p>
           <div class="project-tags">
             <span class="tag">C++17</span><span class="tag">CUDA</span><span class="tag">Triton</span>
             <span class="tag">PyTorch</span><span class="tag">AVX2</span>
           </div>
           <div class="featured-metrics">
-            <span class="metric-chip">1.68× kernel speedup</span>
+            <span class="metric-chip">workload-dependent kernel speedups</span>
             <span class="metric-chip">68% VRAM BW reduction</span>
           </div>
           <div class="featured-links">
