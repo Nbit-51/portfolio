@@ -310,8 +310,150 @@
     .connect-card{padding:40px 24px;}
     .hero-actions{flex-direction:column; align-items:stretch;}
   }
+
+
+  /* ---- professional hierarchy additions ---- */
+  .hero-kicker{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    color:var(--accent-dim);
+    margin-bottom:14px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+  }
+  .hero-summary{
+    max-width:720px;
+    font-size:17px;
+    color:var(--text-dim);
+    margin-bottom:34px;
+  }
+  .hero-summary strong{color:var(--text); font-weight:500;}
+
+  .featured-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+  }
+  .featured-card{
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:var(--surface);
+    padding:26px;
+    display:flex;
+    flex-direction:column;
+    min-height:330px;
+    transition:transform .18s,border-color .18s;
+  }
+  .featured-card:hover{
+    transform:translateY(-2px);
+    border-color:var(--border-hi);
+  }
+  .featured-card .status-chip{align-self:flex-start; margin-bottom:18px;}
+  .featured-card h3{font-size:21px; margin-bottom:10px;}
+  .featured-card p{color:var(--text-dim); font-size:14px; margin-bottom:18px;}
+  .featured-metrics{display:flex; flex-wrap:wrap; gap:8px; margin-top:auto; margin-bottom:18px;}
+  .featured-links{display:flex; flex-wrap:wrap; gap:14px; align-items:center;}
+  .featured-link{
+    font-size:13.5px;
+    color:var(--accent);
+    border-bottom:1px solid var(--accent-dim);
+    padding-bottom:2px;
+  }
+
+  .research-grid{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:22px;
+    align-items:start;
+  }
+  .research-panel{
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:var(--surface);
+    padding:26px;
+  }
+  .research-panel h3{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--accent);
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    margin-bottom:12px;
+  }
+  .research-panel p{color:var(--text-dim); font-size:14.5px;}
+  .research-list{display:grid; gap:12px; margin-top:18px;}
+  .research-item{
+    border-top:1px solid var(--border);
+    padding-top:12px;
+  }
+  .research-item strong{
+    display:block;
+    color:var(--text);
+    font-size:13.5px;
+    margin-bottom:4px;
+  }
+  .research-item span{color:var(--text-dim); font-size:13.5px;}
+
+  .about-compact{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+  }
+  .about-card{
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:var(--surface);
+    padding:26px;
+  }
+  .about-card h3{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--accent);
+    margin-bottom:12px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+  }
+  .about-card p{font-size:14.5px; color:var(--text-dim);}
+  .about-card strong{color:var(--text); font-weight:500;}
+
+  .award-grid{
+    display:grid;
+    grid-template-columns:1.2fr .9fr .9fr;
+    gap:14px;
+  }
+  .award-card{
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:var(--surface);
+    padding:22px;
+  }
+  .award-card.primary{border-color:var(--accent-dim);}
+  .award-card h3{font-size:16px; margin-bottom:5px;}
+  .award-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    color:var(--text-faint);
+    margin-bottom:12px;
+  }
+  .award-card p{font-size:13.5px; color:var(--text-dim);}
+
+  .more-work-note{
+    max-width:700px;
+    color:var(--text-dim);
+    font-size:14.5px;
+    margin-bottom:28px;
+  }
+
+  @media (max-width:900px){
+    .featured-grid,
+    .research-grid,
+    .about-compact,
+    .award-grid{grid-template-columns:1fr;}
+    .featured-card{min-height:auto;}
+  }
 </style>
 </head>
+
 <body>
 
 <header>
@@ -320,46 +462,56 @@
       <div class="brand-mark">NS</div>
       <div>
         <div class="brand-name">Navaneeth Singh</div>
-        <div class="brand-sub">ML · Inference Systems</div>
+        <div class="brand-sub">ML Systems · Inference Engineering</div>
       </div>
     </div>
+
     <nav class="links" id="navLinks">
       <a href="#home" data-nav>Home</a>
-      <a href="#about" data-nav>About</a>
-      <a href="#projects" data-nav>Projects</a>
-      <a href="#competitions" data-nav>Competitions</a>
+      <a href="#work" data-nav>Work</a>
+      <a href="#research" data-nav>Research</a>
       <a href="#skills" data-nav>Skills</a>
+      <a href="#about" data-nav>About</a>
       <a href="#connect" data-nav>Connect</a>
       <a href="assets/Navaneeth_Singh_Resume_v3.docx" class="nav-cta">Resume ↓</a>
     </nav>
+
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
     </button>
   </div>
 </header>
 
 <main>
 
-  <!-- HOME / HERO -->
+  <!-- HERO -->
   <section id="home">
     <div class="wrap">
       <div class="hero-tag"><span class="dot"></span> 3rd yr CSE · JSS Academy, Bengaluru · VTU</div>
+
+      <div class="hero-kicker">ML Systems · LLM Inference · Performance Engineering</div>
       <h1 class="hero-title">Making inference<br><span class="accent-text">faster, leaner,</span><br>more rigorous.</h1>
-      <div class="hero-role">ML Engineer · Systems Programmer · LLM Inference &amp; Kernels</div>
-      <p class="hero-desc">
-        I work at the intersection of deep learning and low-level systems — <strong>fused CUDA/Triton inference kernels</strong> on the GPU side,
-        a <strong>CPU-native inference runtime</strong> on the other, and <strong>KV cache compression research</strong> targeting TMLR.
-        Same problem — model efficiency — attacked from both ends of the hardware spectrum.
+
+      <p class="hero-summary">
+        I'm <strong>Navaneeth Singh</strong>, a computer science student focused on
+        <strong>ML systems, LLM inference, GPU kernels, CPU runtimes, and model efficiency</strong>.
+        I build low-level systems to understand where inference time and memory are actually spent — then optimize the bottlenecks.
       </p>
+
       <div class="hero-actions">
-        <a href="https://github.com/Nbit-51" class="btn btn-primary">View GitHub →</a>
-        <a href="#projects" class="btn btn-secondary">Browse Projects</a>
-        <a href="mailto:navaneethsingh73@gmail.com" class="btn btn-secondary">Email Me</a>
+        <a href="#work" class="btn btn-primary">View Featured Work →</a>
+        <a href="https://github.com/Nbit-51" class="btn btn-secondary">GitHub</a>
+        <a href="assets/Navaneeth_Singh_Resume_v3.docx" class="btn btn-secondary">Resume</a>
+        <a href="mailto:navaneethsingh73@gmail.com" class="btn btn-secondary">Email</a>
       </div>
 
       <div class="trace-wrap">
         <div class="trace-label">
-          <span>Inference latency trend, Hydra Engine</span>
+          <span>Measured kernel optimization · Hydra Engine</span>
           <span class="live">1.68× speedup</span>
         </div>
         <svg class="trace" viewBox="0 0 900 60" preserveAspectRatio="none">
@@ -367,159 +519,173 @@
         </svg>
       </div>
 
-      <div class="stat-grid">
-        <div class="stat"><div class="stat-num">1.68×</div><div class="stat-label">INFERENCE SPEEDUP<br>Hydra Engine</div></div>
+      <div class="stat-grid" style="grid-template-columns:repeat(4,1fr);">
+        <div class="stat"><div class="stat-num">1.68×</div><div class="stat-label">KERNEL SPEEDUP<br>Hydra Engine</div></div>
         <div class="stat"><div class="stat-num">68%</div><div class="stat-label">VRAM BW REDUCTION<br>TinyLlama-1.1B</div></div>
+        <div class="stat"><div class="stat-num">397→141ms</div><div class="stat-label">CPU LATENCY<br>Leaf / ResNet-18</div></div>
         <div class="stat"><div class="stat-num">109/109</div><div class="stat-label">TESTS PASSING<br>navexa ARM lib</div></div>
-        <div class="stat"><div class="stat-num">TMLR</div><div class="stat-label">TARGET VENUE<br>KV cache paper</div></div>
-        <div class="stat"><div class="stat-num">7</div><div class="stat-label">OPEN-SOURCE REPOS<br>shipped</div></div>
       </div>
 
       <div class="interests">
-        <span class="interest-tag">Neural Networks</span>
-        <span class="interest-tag">Deep Learning</span>
-        <span class="interest-tag">AI Optimization</span>
         <span class="interest-tag">LLM Inference</span>
         <span class="interest-tag">GPU Compute</span>
+        <span class="interest-tag">CPU Optimization</span>
+        <span class="interest-tag">Quantization</span>
+        <span class="interest-tag">KV Cache</span>
         <span class="interest-tag">Systems Programming</span>
         <span class="interest-tag">ML Research</span>
-        <span class="interest-tag">Competitive Programming</span>
       </div>
     </div>
   </section>
 
-  <!-- ABOUT -->
-  <section id="about">
+  <!-- FEATURED WORK -->
+  <section id="work">
     <div class="wrap">
-      <div class="eyebrow">01 / Who I Am</div>
-      <h2 class="section-title">I build things, then <em>study why they work</em>.</h2>
-      <p class="section-intro">Obsessed with how models actually run — not just what they predict.</p>
+      <div class="eyebrow">01 / Featured Work</div>
+      <h2 class="section-title">Three projects that define my <em>technical direction</em>.</h2>
+      <p class="section-intro">
+        GPU inference, CPU inference, and inference research — three views of the same problem:
+        making model execution more efficient without treating the hardware as a black box.
+      </p>
 
-      <div class="about-grid">
-        <div>
-          <div class="about-block">
-            <h3>WHAT I'M WORKING ON</h3>
-            <p>My focus right now is inference-time efficiency — how attention mechanisms, memory bandwidth, and kernel fusion interact to bottleneck model serving, on any hardware. I test this empirically on both ends of the spectrum: fused Triton/CUDA kernels (Hydra Engine) when a GPU is available, a from-scratch AVX2 CPU runtime (Leaf) when it isn't, and KV cache eviction strategies under RoPE-based architectures on the research side. The projects are how I validate the theory, not the point in themselves.</p>
+      <div class="featured-grid">
+
+        <article class="featured-card">
+          <span class="status-chip active">ACTIVE DEVELOPMENT</span>
+          <h3>Hydra Engine</h3>
+          <p>
+            High-performance LLM inference framework for TinyLlama-1.1B with fused Triton kernels,
+            CUDA Graphs, speculative decoding, AVX2 token verification, NF4 quantization, LibTorch, and PyBind11.
+          </p>
+          <div class="project-tags">
+            <span class="tag">C++17</span><span class="tag">CUDA</span><span class="tag">Triton</span>
+            <span class="tag">PyTorch</span><span class="tag">AVX2</span>
           </div>
-          <div class="about-block">
-            <h3>CURRENT RESEARCH STATUS</h3>
-            <p>KV cache compression methodology — comparing budget truncation, H2O eviction, and sliding window attention — has been validated on smaller-parameter variants across OPT, IBM Granite, and Qwen2.5 architectures. I'm now scaling evaluation to larger-parameter models to confirm the trend holds before TMLR submission.</p>
+          <div class="featured-metrics">
+            <span class="metric-chip">1.68× kernel speedup</span>
+            <span class="metric-chip">68% VRAM BW reduction</span>
           </div>
-          <div class="about-block">
-            <h3>WHERE THIS IS GOING</h3>
-            <p>I want to build inference-layer software that makes deep learning models faster, leaner, and hardware-efficient at scale — working at the intersection of AI compilers, GPU programming, and low-overhead model deployment systems.</p>
+          <div class="featured-links">
+            <a class="featured-link" href="https://github.com/Nbit-51/Hydra_Engine">View repository ↗</a>
+          </div>
+        </article>
+
+        <article class="featured-card">
+          <span class="status-chip active">ACTIVE DEVELOPMENT</span>
+          <h3>Leaf</h3>
+          <p>
+            CPU-native neural-network inference runtime designed for no-GPU machines.
+            The current ResNet-18 path uses a compiled C++ runtime and hand-tuned AVX2 GEMM while preserving close agreement with PyTorch.
+          </p>
+          <div class="project-tags">
+            <span class="tag">C++</span><span class="tag">ONNX</span><span class="tag">AVX2</span>
+            <span class="tag">CMake</span><span class="tag">Quantization</span>
+          </div>
+          <div class="featured-metrics">
+            <span class="metric-chip">397.4ms → 140.9ms</span>
+            <span class="metric-chip">3.93e-06 max diff</span>
+          </div>
+          <div class="featured-links">
+            <a class="featured-link" href="https://github.com/Nbit-51/Leaf">View repository ↗</a>
+          </div>
+        </article>
+
+        <article class="featured-card">
+          <span class="status-chip research">ONGOING RESEARCH</span>
+          <h3>KV Cache Compression Study</h3>
+          <p>
+            Empirical study of cache-budget truncation, H2O eviction, StreamingLLM,
+            INT4/INT8 quantization, and sliding-window attention across multiple LLM architectures.
+            Current work is scaling evaluation beyond the smaller-model validation stage.
+          </p>
+          <div class="project-tags">
+            <span class="tag">PyTorch</span><span class="tag">LLMs</span><span class="tag">KV Cache</span>
+            <span class="tag">OPT</span><span class="tag">Granite</span><span class="tag">Qwen2.5</span>
+          </div>
+          <div class="featured-metrics">
+            <span class="metric-chip">Cross-architecture evaluation</span>
+          </div>
+          <div class="featured-links">
+            <a class="featured-link" href="https://github.com/Nbit-51/LLM_MODELS_OPTIMIZATION_STUDY">View research repo ↗</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section id="research">
+    <div class="wrap">
+      <div class="eyebrow">02 / Research</div>
+      <h2 class="section-title">Studying inference behavior, not just <em>reporting benchmarks</em>.</h2>
+      <p class="section-intro">
+        My current research asks how KV-cache reduction strategies behave across architectures,
+        especially when positional encoding and cache eviction interact in non-obvious ways.
+      </p>
+
+      <div class="research-grid">
+        <div class="research-panel">
+          <h3>Current Study</h3>
+          <p>
+            I am comparing budget truncation, H2O token eviction, StreamingLLM,
+            INT4/INT8 cache quantization, and sliding-window attention across OPT,
+            IBM Granite, and Qwen2.5 model families. Smaller-parameter experiments have been used
+            to validate the methodology; the next stage is larger-model evaluation to test whether the observed trends persist.
+          </p>
+
+          <div class="research-list">
+            <div class="research-item">
+              <strong>Question</strong>
+              <span>How much cache can be removed before quality or generation behavior degrades meaningfully?</span>
+            </div>
+            <div class="research-item">
+              <strong>Architecture sensitivity</strong>
+              <span>Documenting strategy-specific failure modes, including positional-coherence issues under RoPE-based models.</span>
+            </div>
+            <div class="research-item">
+              <strong>Current status</strong>
+              <span>Methodology validated on smaller variants; scaling evaluation before preparing a formal submission.</span>
+            </div>
           </div>
         </div>
-        <div class="about-thesis">
-          <div class="mono" style="font-size:12px; color:var(--accent); margin-bottom:12px; text-transform:uppercase; letter-spacing:0.06em;">Technical Thesis</div>
-          Most inference slowdowns aren't algorithmic — they're memory-bound. Every project here is an attempt to close the gap between what a model <em>could</em> do on a given piece of silicon and what it <em>actually</em> does, one fused kernel or cache eviction policy at a time.
+
+        <div class="research-panel">
+          <h3>Technical Thesis</h3>
+          <p>
+            A large fraction of inference performance is governed by data movement, memory bandwidth,
+            cache behavior, and execution overhead rather than arithmetic alone.
+            That idea connects my GPU kernel work, CPU runtime work, and KV-cache research.
+          </p>
+
+          <div class="research-list">
+            <div class="research-item">
+              <strong>GPU side</strong>
+              <span>Kernel fusion, CUDA Graphs, quantization, and reduced memory traffic.</span>
+            </div>
+            <div class="research-item">
+              <strong>CPU side</strong>
+              <span>SIMD, cache-friendly memory layouts, compiled runtimes, and lower framework overhead.</span>
+            </div>
+            <div class="research-item">
+              <strong>Research side</strong>
+              <span>Reducing attention-state memory while preserving useful context.</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PROJECTS -->
+  <!-- MORE PROJECTS -->
   <section id="projects">
     <div class="wrap">
-      <div class="eyebrow">02 / What I've Built</div>
-      <h2 class="section-title">Selected <em>projects</em></h2>
-      <p class="section-intro">Active systems are shown as active systems — the point is to document engineering in progress, not present unfinished work as production-ready. Click a card to expand metrics &amp; tags.</p>
-
-      <div class="subsection-label">Building Now</div>
-      <p class="subsection-note">Active development and open research — where things currently stand, not where they'll end up.</p>
-
-      <div class="project-list" id="projectList">
-
-        <div class="project">
-          <div class="project-head" data-toggle>
-            <div class="project-head-left">
-              <div class="project-meta">
-                <span class="project-index">01</span>
-                <span class="status-chip active">ACTIVE DEVELOPMENT</span>
-                <span>· updated ~1 month ago</span>
-              </div>
-              <div class="project-top-row">
-                <span class="project-badge">FLAGSHIP</span>
-                <span class="project-name">Hydra Engine</span>
-              </div>
-            </div>
-            <svg class="project-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-          <div class="project-body">
-            <div class="project-body-inner">
-              <p class="project-desc">High-performance LLM inference framework for TinyLlama-1.1B. Implements fused Triton JIT kernels for RMSNorm + residual ops, a GIL-free C++17 speculative decoding loop via LibTorch and PyBind11, AVX2 SIMD token verification, and NF4 quantization — all wired into a CUDA Graphs execution pipeline.</p>
-              <div class="project-metrics">
-                <span class="metric-chip">1.68× kernel speedup</span>
-                <span class="metric-chip">68% VRAM BW reduction</span>
-              </div>
-              <div class="project-tags">
-                <span class="tag">C++17</span><span class="tag">CUDA</span><span class="tag">Triton</span><span class="tag">PyTorch</span><span class="tag">PyBind11</span><span class="tag">AVX2</span><span class="tag">LibTorch</span>
-              </div>
-              <a href="https://github.com/Nbit-51/Hydra_Engine" class="project-link">↗ View repository</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="project">
-          <div class="project-head" data-toggle>
-            <div class="project-head-left">
-              <div class="project-meta">
-                <span class="project-index">02</span>
-                <span class="status-chip active">ACTIVE DEVELOPMENT</span>
-              </div>
-              <div class="project-top-row">
-                <span class="project-badge">CPU INFERENCE</span>
-                <span class="project-name">Leaf</span>
-              </div>
-            </div>
-            <svg class="project-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-          <div class="project-body">
-            <div class="project-body-inner">
-              <p class="project-desc">A CPU-native neural network inference optimization engine — making complex models runnable on hardware without a GPU. Takes an already-trained model (CNN or Transformer) and transforms it through quantization, structured pruning, graph-level optimization, and hand-written AVX2 CPU kernels into a form that runs with acceptable latency and memory footprint on constrained, no-GPU machines. Enforces a hard dev/target machine separation — the target build never installs PyTorch or any training framework, only the compiled C++ runtime and its artifact.</p>
-              <p class="project-desc" style="margin-top:-8px;">Currently has a verified FP32 vertical slice for ResNet-18: the C++ runtime's output matches PyTorch's reference to a max absolute difference of 3.93e-06, and a hand-tuned AVX2 GEMM micro-kernel cut mean inference latency from 397.4ms to 140.9ms on the development machine. Quantization, pruning, and the transformer path are next on the milestone queue.</p>
-              <div class="project-metrics">
-                <span class="metric-chip">397.4ms → 140.9ms latency</span>
-                <span class="metric-chip">3.93e-06 max diff vs PyTorch</span>
-              </div>
-              <div class="project-tags">
-                <span class="tag">C++</span><span class="tag">Python</span><span class="tag">ONNX</span><span class="tag">AVX2</span><span class="tag">CMake</span><span class="tag">Quantization</span>
-              </div>
-              <a href="https://github.com/Nbit-51/Leaf" class="project-link">↗ View repository</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="project">
-          <div class="project-head" data-toggle>
-            <div class="project-head-left">
-              <div class="project-meta">
-                <span class="project-index">03</span>
-                <span class="status-chip research">RESEARCH</span>
-                <span>· targeting TMLR</span>
-              </div>
-              <div class="project-top-row">
-                <span class="project-badge">RESEARCH</span>
-                <span class="project-name">KV Cache Compression Study</span>
-              </div>
-            </div>
-            <svg class="project-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-          <div class="project-body">
-            <div class="project-body-inner">
-              <p class="project-desc">Empirical analysis comparing KV cache compression strategies — budget truncation, H2O token eviction, StreamingLLM, INT4/INT8 quantization, and sliding window attention — across OPT-1.3B, IBM Granite-1B, and Qwen2.5-1.5B. Documents architecture-specific failure modes including an H2O positional incoherence bug with RoPE models. Validated on smaller-parameter variants; now scaling to larger models.</p>
-              <div class="project-tags">
-                <span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">Quantization</span><span class="tag">LLMs</span><span class="tag">ML Research</span><span class="tag">OPT</span><span class="tag">Qwen2.5</span>
-              </div>
-              <a href="https://github.com/Nbit-51/LLM_MODELS_OPTIMIZATION_STUDY" class="project-link">↗ View repository</a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="subsection-label" style="margin-top:48px;">Finished Enough To Show</div>
-      <p class="subsection-note">Demonstrates different engineering layers — collaborative systems work, low-level libraries, and a competition-winning full-stack build.</p>
+      <div class="eyebrow">03 / More Projects</div>
+      <h2 class="section-title">Additional <em>engineering work</em></h2>
+      <p class="more-work-note">
+        These projects show range across low-level libraries, backend systems, deep learning fundamentals,
+        and WebAssembly. They are intentionally secondary to the three projects above so the strongest work remains easy to find.
+      </p>
 
       <div class="project-list">
 
@@ -527,7 +693,7 @@
           <div class="project-head" data-toggle>
             <div class="project-head-left">
               <div class="project-meta">
-                <span class="project-index">04</span>
+                <span class="project-index">01</span>
                 <span class="status-chip contribution">GROUP CONTRIBUTION</span>
               </div>
               <div class="project-top-row">
@@ -539,12 +705,14 @@
           </div>
           <div class="project-body">
             <div class="project-body-inner">
-              <p class="project-desc">A collaborative NumPy-equivalent for ARMv8-A — high-performance C++ numerical computing primitives filling architecture gaps. My contribution: the SME Matrix Acceleration module and Virtualization Helpers. Cross-compiled to AArch64 via CMake; all 109 tests passing.</p>
-              <div class="project-metrics">
-                <span class="metric-chip">109 / 109 tests ✓</span>
-              </div>
+              <p class="project-desc">
+                Collaborative NumPy-equivalent for ARMv8-A. My contribution focused on the SME Matrix Acceleration
+                module and Virtualization Helpers. Cross-compiled to AArch64 with CMake; all 109 tests passing.
+              </p>
+              <div class="project-metrics"><span class="metric-chip">109 / 109 tests passing</span></div>
               <div class="project-tags">
-                <span class="tag">C++</span><span class="tag">ARMv8-A</span><span class="tag">SME</span><span class="tag">CMake</span><span class="tag">AArch64</span><span class="tag">Linux</span>
+                <span class="tag">C++</span><span class="tag">ARMv8-A</span><span class="tag">SME</span>
+                <span class="tag">CMake</span><span class="tag">AArch64</span>
               </div>
               <a href="https://github.com/Nbit-51/navexa_ARMv8-A_Library" class="project-link">↗ View repository</a>
             </div>
@@ -555,7 +723,7 @@
           <div class="project-head" data-toggle>
             <div class="project-head-left">
               <div class="project-meta">
-                <span class="project-index">05</span>
+                <span class="project-index">02</span>
                 <span class="status-chip winner">DATATHON WINNER</span>
               </div>
               <div class="project-top-row">
@@ -567,9 +735,13 @@
           </div>
           <div class="project-body">
             <div class="project-body-inner">
-              <p class="project-desc">Priority-aware LPG cylinder allocation system replacing India's FCFS model. Implements pro-rata shortage splitting, dynamic anti-starvation ageing with priority score decay, and a crisis mode — aligned with PMUY and NFSA mandates. Full-stack with FastAPI backend, MySQL, and QR-based consumer tracking. Won a college-level datathon competition — certificate on file.</p>
+              <p class="project-desc">
+                Priority-aware LPG cylinder allocation platform with shortage handling, anti-starvation ageing,
+                crisis-mode logic, FastAPI, MySQL, and QR-based consumer tracking.
+              </p>
               <div class="project-tags">
-                <span class="tag">FastAPI</span><span class="tag">MySQL</span><span class="tag">Python</span><span class="tag">REST API</span><span class="tag">Algorithm Design</span>
+                <span class="tag">FastAPI</span><span class="tag">MySQL</span><span class="tag">Python</span>
+                <span class="tag">REST API</span><span class="tag">Algorithm Design</span>
               </div>
               <a href="https://github.com/Nbit-51/LPG-Distribution-System" class="project-link">↗ View repository</a>
             </div>
@@ -580,8 +752,8 @@
           <div class="project-head" data-toggle>
             <div class="project-head-left">
               <div class="project-meta">
-                <span class="project-index">06</span>
-                <span class="status-chip shipped">SHIPPED</span>
+                <span class="project-index">03</span>
+                <span class="status-chip shipped">COMPLETED</span>
               </div>
               <div class="project-top-row">
                 <span class="project-badge">DEEP LEARNING</span>
@@ -592,9 +764,13 @@
           </div>
           <div class="project-body">
             <div class="project-body-inner">
-              <p class="project-desc">Collection of custom neural network training algorithms and deep learning components implemented from scratch. Demonstrates core mathematical understanding of backpropagation, optimization algorithms (Adam, RMSProp), and layer operations.</p>
+              <p class="project-desc">
+                Neural-network training components implemented from scratch to study backpropagation,
+                optimization algorithms, and layer behavior beyond framework-level usage.
+              </p>
               <div class="project-tags">
-                <span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">Deep Learning</span><span class="tag">Optimizers</span><span class="tag">Neural Networks</span>
+                <span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">Deep Learning</span>
+                <span class="tag">Optimizers</span>
               </div>
               <a href="https://github.com/Nbit-51/ML_Algorithms" class="project-link">↗ View repository</a>
             </div>
@@ -605,21 +781,25 @@
           <div class="project-head" data-toggle>
             <div class="project-head-left">
               <div class="project-meta">
-                <span class="project-index">07</span>
-                <span class="status-chip shipped">SHIPPED</span>
+                <span class="project-index">04</span>
+                <span class="status-chip shipped">COMPLETED</span>
               </div>
               <div class="project-top-row">
                 <span class="project-badge">SYSTEMS</span>
-                <span class="project-name">Ecs Component System</span>
+                <span class="project-name">ECS Component System</span>
               </div>
             </div>
             <svg class="project-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div class="project-body">
             <div class="project-body-inner">
-              <p class="project-desc">High-performance Entity Component System (ECS) in C++. Uses contiguous memory layout and sparse sets for cache-friendly entity management and fast iteration — the same memory-locality principles that inform low-overhead inference runtime design.</p>
+              <p class="project-desc">
+                High-performance Entity Component System in C++ using contiguous memory layouts and sparse sets
+                for cache-friendly entity management and fast iteration.
+              </p>
               <div class="project-tags">
-                <span class="tag">C++</span><span class="tag">Systems Programming</span><span class="tag">ECS</span><span class="tag">Cache Optimization</span><span class="tag">Memory Layout</span>
+                <span class="tag">C++</span><span class="tag">Systems Programming</span>
+                <span class="tag">Cache Optimization</span><span class="tag">Memory Layout</span>
               </div>
               <a href="https://github.com/Nbit-51/Ecs_Component_System" class="project-link">↗ View repository</a>
             </div>
@@ -630,8 +810,8 @@
           <div class="project-head" data-toggle>
             <div class="project-head-left">
               <div class="project-meta">
-                <span class="project-index">08</span>
-                <span class="status-chip shipped">SHIPPED</span>
+                <span class="project-index">05</span>
+                <span class="status-chip shipped">COMPLETED</span>
               </div>
               <div class="project-top-row">
                 <span class="project-badge">WASM</span>
@@ -642,9 +822,13 @@
           </div>
           <div class="project-body">
             <div class="project-body-inner">
-              <p class="project-desc">Interactive binary relation analyzer with properties, closures, Hasse diagrams, and function analysis. Features a high-performance C++ backend engine compiled to WebAssembly for fast in-browser computation.</p>
+              <p class="project-desc">
+                Interactive relation analyzer covering properties, closures, Hasse diagrams, and function analysis,
+                backed by a C++ engine compiled to WebAssembly for browser execution.
+              </p>
               <div class="project-tags">
-                <span class="tag">C++</span><span class="tag">WebAssembly</span><span class="tag">JavaScript</span><span class="tag">Discrete Math</span><span class="tag">Algorithm Design</span>
+                <span class="tag">C++</span><span class="tag">WebAssembly</span>
+                <span class="tag">JavaScript</span><span class="tag">Discrete Math</span>
               </div>
               <a href="https://github.com/Nbit-51/Math-Relation-Analyser" class="project-link">↗ View repository</a>
             </div>
@@ -655,82 +839,147 @@
     </div>
   </section>
 
-  <!-- COMPETITIONS -->
-  <section id="competitions">
+  <!-- SKILLS -->
+  <section id="skills">
     <div class="wrap">
-      <div class="eyebrow">03 / Competitions</div>
-      <h2 class="section-title">Hackathons &amp; <em>competitions</em></h2>
-      <p class="section-intro">Building under pressure, shipping under deadlines.</p>
+      <div class="eyebrow">04 / Technical Stack</div>
+      <h2 class="section-title">Skills grouped by <em>how I use them</em></h2>
+      <p class="section-intro">
+        Focused on the technologies that support my current work rather than a long list of tools.
+      </p>
 
-      <div class="row-cards">
-        <div class="row-card winner">
-          <div class="row-card-main">
-            <div class="row-card-title">College Datathon — LPG Distribution System</div>
-            <div class="row-card-org">JSS Academy of Technology, Bengaluru</div>
-            <div class="row-card-desc">Built and presented the priority-aware LPG allocation system end-to-end under competition time constraints. Won 1st place — certificate on file.</div>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-card-head">
+            <span class="skill-card-title">ML / Inference</span>
+            <span class="skill-card-tag">PRIMARY</span>
           </div>
-          <span class="status-pill winner">WINNER</span>
+          <p class="skill-card-desc">
+            Model execution, quantization, attention-state optimization, inference graphs, and empirical evaluation.
+          </p>
+          <div class="skill-pills">
+            <span class="tag">PyTorch</span><span class="tag">Triton JIT</span><span class="tag">CUDA Graphs</span>
+            <span class="tag">Quantization</span><span class="tag">Transformers</span>
+            <span class="tag">KV Cache</span><span class="tag">Speculative Decoding</span>
+          </div>
         </div>
 
-        <div class="row-card">
-          <div class="row-card-main">
-            <div class="row-card-title">Global Academy of Technology AI Prompt Battle</div>
-            <div class="row-card-org">Unstop · Global Academy of Technology</div>
-            <div class="row-card-desc">Competitive prompt engineering tournament testing prompt design, reasoning, and context utilization. Showcased structured LLM prompting strategies and creative engineering under time constraints.</div>
+        <div class="skill-card">
+          <div class="skill-card-head">
+            <span class="skill-card-title">Systems / Performance</span>
+            <span class="skill-card-tag">PRIMARY</span>
           </div>
-          <span class="status-pill completed">COMPLETED</span>
+          <p class="skill-card-desc">
+            Native runtimes, SIMD, Python/C++ interop, memory locality, and architecture-aware optimization.
+          </p>
+          <div class="skill-pills">
+            <span class="tag">C++17</span><span class="tag">CUDA</span><span class="tag">LibTorch</span>
+            <span class="tag">PyBind11</span><span class="tag">AVX2 SIMD</span>
+            <span class="tag">ARMv8-A</span><span class="tag">CMake</span><span class="tag">Linux</span>
+          </div>
         </div>
 
-        <div class="row-card">
-          <div class="row-card-main">
-            <div class="row-card-title">Embedathon 25-26 (Embedded Systems Quiz)</div>
-            <div class="row-card-org">NIT Surathkal · Unstop</div>
-            <div class="row-card-desc">Technical quiz hosted by NIT Surathkal on microcontroller architecture, RTOS fundamentals, memory-mapped I/O, and interrupt handling — reinforcing the low-level thinking that informs systems programming work.</div>
+        <div class="skill-card">
+          <div class="skill-card-head">
+            <span class="skill-card-title">Backend / Tooling</span>
+            <span class="skill-card-tag">SUPPORTING</span>
           </div>
-          <span class="status-pill completed">COMPLETED</span>
+          <p class="skill-card-desc">
+            APIs, data storage, reproducible experimentation, and interfaces for ML systems.
+          </p>
+          <div class="skill-pills">
+            <span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">MySQL</span>
+            <span class="tag">REST APIs</span><span class="tag">JavaScript</span>
+            <span class="tag">HTML / CSS</span><span class="tag">Git</span>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SKILLS -->
-  <section id="skills">
+  <!-- ABOUT -->
+  <section id="about">
     <div class="wrap">
-      <div class="eyebrow">04 / Toolbox</div>
-      <h2 class="section-title">Skills &amp; <em>technologies</em></h2>
-      <p class="section-intro">What I build with, ordered by depth of experience.</p>
+      <div class="eyebrow">05 / About</div>
+      <h2 class="section-title">A clearer picture of <em>what I care about</em>.</h2>
+      <p class="section-intro">
+        I learn best by moving between theory, implementation, and measurement.
+      </p>
 
-      <div class="skills-grid">
-        <div class="skill-card">
-          <div class="skill-card-head">
-            <span class="skill-card-title">ML / AI</span>
-            <span class="skill-card-tag">CORE EXPERTISE</span>
-          </div>
-          <p class="skill-card-desc">Custom deep learning architectures, compiled GPU execution graphs, model quantization, and low-level LLM cache mechanics.</p>
-          <div class="skill-pills">
-            <span class="tag">PyTorch</span><span class="tag">Triton JIT</span><span class="tag">CUDA Graphs</span><span class="tag">Quantization</span><span class="tag">LLMs</span><span class="tag">Transformers</span><span class="tag">KV Cache</span><span class="tag">Speculative Decoding</span>
-          </div>
+      <div class="about-compact">
+        <div class="about-card">
+          <h3>What I work on</h3>
+          <p>
+            My main interest is <strong>inference-time efficiency</strong>:
+            kernel fusion, memory bandwidth, SIMD, quantization, cache behavior,
+            and execution overhead across GPU and CPU systems.
+          </p>
         </div>
-        <div class="skill-card">
-          <div class="skill-card-head">
-            <span class="skill-card-title">Systems / Low-Level</span>
-            <span class="skill-card-tag">PERFORMANCE FOCUS</span>
-          </div>
-          <p class="skill-card-desc">High-performance C++ binaries, SIMD instructions, Python/C++ interop, and ARMv8 architecture-level kernel work.</p>
-          <div class="skill-pills">
-            <span class="tag">C++17</span><span class="tag">LibTorch</span><span class="tag">PyBind11</span><span class="tag">AVX2 SIMD</span><span class="tag">ARMv8-A</span><span class="tag">CMake</span><span class="tag">Linux</span><span class="tag">WSL2</span>
-          </div>
+
+        <div class="about-card">
+          <h3>How I approach it</h3>
+          <p>
+            I prefer to build a working system, profile it, identify the bottleneck,
+            and then study the underlying mechanism. Projects are useful to me because
+            they turn performance claims into something measurable.
+          </p>
         </div>
-        <div class="skill-card">
-          <div class="skill-card-head">
-            <span class="skill-card-title">Web / Backend</span>
-            <span class="skill-card-tag">APPLICATION STACK</span>
-          </div>
-          <p class="skill-card-desc">Robust servers, relational database schemas, REST APIs, and clean frontends for AI tooling.</p>
-          <div class="skill-pills">
-            <span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">MySQL</span><span class="tag">REST APIs</span><span class="tag">JavaScript</span><span class="tag">HTML / CSS</span><span class="tag">Git</span>
-          </div>
+
+        <div class="about-card">
+          <h3>Where I'm heading</h3>
+          <p>
+            I want to work on <strong>ML systems, inference runtimes, AI compilers,
+            GPU programming, and efficient deployment</strong> — especially software
+            that closes the gap between theoretical model capability and practical hardware performance.
+          </p>
         </div>
+
+        <div class="about-card">
+          <h3>Current status</h3>
+          <p>
+            I am a third-year CSE student at JSS Academy of Technical Education, Bengaluru.
+            I am currently open to research collaborations, internships, and technical conversations
+            around inference systems and performance engineering.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AWARDS -->
+  <section id="awards">
+    <div class="wrap">
+      <div class="eyebrow">06 / Awards & Activities</div>
+      <h2 class="section-title">Supporting <em>highlights</em></h2>
+      <p class="section-intro">
+        Kept compact so the technical work remains the center of the portfolio.
+      </p>
+
+      <div class="award-grid">
+        <article class="award-card primary">
+          <span class="status-pill winner" style="display:inline-block;margin-bottom:14px;">1ST PLACE</span>
+          <h3>College Datathon — LPG Distribution System</h3>
+          <div class="award-meta">JSS Academy of Technology, Bengaluru</div>
+          <p>
+            Built and presented the priority-aware LPG allocation system end-to-end under competition constraints.
+          </p>
+        </article>
+
+        <article class="award-card">
+          <h3>AI Prompt Battle</h3>
+          <div class="award-meta">Global Academy of Technology · Unstop</div>
+          <p>
+            Competitive prompt-design event focused on reasoning, context use, and structured LLM interaction.
+          </p>
+        </article>
+
+        <article class="award-card">
+          <h3>Embedathon 25–26</h3>
+          <div class="award-meta">NIT Surathkal · Unstop</div>
+          <p>
+            Embedded-systems technical quiz covering architecture, RTOS concepts, memory-mapped I/O, and interrupts.
+          </p>
+        </article>
       </div>
     </div>
   </section>
@@ -740,9 +989,12 @@
     <div class="wrap">
       <div class="connect-card">
         <div class="connect-inner">
-          <div class="eyebrow" style="justify-content:center;">05 / Get In Touch</div>
-          <h2>Let's <span class="accent-text" style="color:var(--accent);">connect</span></h2>
-          <p>Open to research collaborations, internship opportunities, and conversations about AI systems, LLM inference, or low-level engineering. Always happy to talk kernels.</p>
+          <div class="eyebrow" style="justify-content:center;">07 / Get In Touch</div>
+          <h2>Interested in <span class="accent-text" style="color:var(--accent);">ML systems?</span></h2>
+          <p>
+            I'm open to research collaborations, internship opportunities, and conversations about
+            LLM inference, performance engineering, GPU kernels, or CPU runtimes.
+          </p>
           <div class="connect-links">
             <a href="mailto:navaneethsingh73@gmail.com" class="btn btn-primary">Email</a>
             <a href="https://github.com/Nbit-51" class="btn btn-secondary">GitHub</a>
@@ -757,21 +1009,22 @@
 </main>
 
 <footer>
-  <p>© 2026 Navaneeth Singh — Built with intent, not a template.</p>
+  <p>© 2026 Navaneeth Singh · ML Systems &amp; Inference Engineering</p>
 </footer>
 
 <script>
-  // mobile nav toggle
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
+
   navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
   document.querySelectorAll('#navLinks a').forEach(a => {
     a.addEventListener('click', () => navLinks.classList.remove('open'));
   });
 
-  // scrollspy
   const sections = document.querySelectorAll('main section[id]');
   const navItems = document.querySelectorAll('nav.links a[data-nav]');
+
   const spy = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       const id = entry.target.getAttribute('id');
@@ -782,18 +1035,23 @@
       }
     });
   }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+
   sections.forEach(s => spy.observe(s));
 
-  // project accordion
   document.querySelectorAll('[data-toggle]').forEach(head => {
     head.addEventListener('click', () => {
       const project = head.closest('.project');
       const isOpen = project.classList.contains('open');
-      document.querySelectorAll('.project.open').forEach(p => { if(p !== project) p.classList.remove('open'); });
+
+      document.querySelectorAll('.project.open').forEach(p => {
+        if(p !== project) p.classList.remove('open');
+      });
+
       project.classList.toggle('open', !isOpen);
     });
   });
 </script>
 
 </body>
+
 </html>
